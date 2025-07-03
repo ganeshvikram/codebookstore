@@ -2,11 +2,15 @@ import { Link } from 'react-router'
 import Logo from '../../assets/images/vikram-high-resolution-logo.png'
 import { useEffect, useState } from 'react'
 import { Search } from '../Sections/Search'
+import { DropdownLoggedOut } from '../Elements/DropdownLoggedOut'
+//import { DropdownLoggedIn } from '../Elements/DropdownLoggedIn'
+
 
 export const Header = () => {
 
     const [darkMode,setDarkMode] = useState(JSON.parse(localStorage.getItem('darkMode')) || false);
     const [showsearch,setshowSearch] = useState(false);
+    const [showDropdown,setshowDropdown] = useState(false);
 
     useEffect(()=>{
                     localStorage.setItem('darkMode', JSON.stringify(darkMode))
@@ -34,7 +38,8 @@ export const Header = () => {
                             <span className="text-white text-sm absolute -top-1 left-2.5 bg-rose-500 px-1 rounded-full ">0</span>
                         </span>                    
                     </Link>
-                    <span className="bi bi-person-circle cursor-pointer text-2xl text-gray-700 dark:text-white"></span>
+                    <span onClick = {()=>{setshowDropdown(!showDropdown) }} className="bi bi-person-circle cursor-pointer text-2xl text-gray-700 dark:text-white"></span>
+                    {showDropdown && <DropdownLoggedOut />}
                 </div>
             </div>
         </nav>

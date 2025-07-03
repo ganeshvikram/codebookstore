@@ -2,20 +2,34 @@ import { useEffect, useState } from "react"
 import { ProductCard } from "../../components/"
 import { FilterBar } from "./components/FilterBar"
 import { useLocation } from "react-router";
+import { useFilter } from "../../context";
+
 export const ProductsList = () => {
   const [show, setShow] = useState(false);
-  const [productList, setproductList] = useState([]);
+  const {productList, initialProductList} = useFilter();
   const search = useLocation().search;
   const searchTrem = new URLSearchParams(search).get('q');
 
-  useEffect(()=>{
+  useEffect(() => {
     async function fetchProducts() {
-      const response = await fetch(`http://localhost:3001/products?name=${searchTrem?searchTrem:''}`);
-      const data = await response.json();
-      setproductList(data);
+      try {
+        const response = await fetch(`http://localhost:3001/products?name=${searchTrem || ''}`);
+  
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+  
+        const data = await response.json();
+        // setproductList(data);
+        initialProductList(data);
+      } catch (error) {
+        console.error('Failed to fetch products:', error);
+        // Optionally: show error in UI, set an error state, etc.
+      }
     }
+  
     fetchProducts();
-  },[searchTrem])
+  }, []);
   return (
     <main>
         <section className="my-5">
