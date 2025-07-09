@@ -8,28 +8,25 @@ export const ProductsList = () => {
   const [show, setShow] = useState(false);
   const {productList, initialProductList} = useFilter();
   const search = useLocation().search;
-  const searchTrem = new URLSearchParams(search).get('q');
+  let  searchTrem = new URLSearchParams(search).get('q');
+  searchTrem = searchTrem ? `name=` + searchTrem : '';
 
   useEffect(() => {
     async function fetchProducts() {
       try {
-        const response = await fetch(`http://localhost:3001/products?name=${searchTrem || ''}`);
-  
+        const response = await fetch(`http://localhost:3001/products?${searchTrem || ''}`);
         if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
+          throw new Error(`HTTP  error! Status: ${response.status}`);
         }
-  
         const data = await response.json();
-        // setproductList(data);
         initialProductList(data);
       } catch (error) {
         console.error('Failed to fetch products:', error);
-        // Optionally: show error in UI, set an error state, etc.
       }
     }
   
     fetchProducts();
-  }, []);
+  }, [searchTrem]);
   return (
     <main>
         <section className="my-5">

@@ -37,14 +37,14 @@ export const FilterProvider = ({children})=>{
 
     function filterBestSeller(products){
 
-        console.log(state);
+        //console.log(state);
         return (state.bestSellerOnly)?products.filter(product => product.best_seller === true): products;
 
 
     }
 
     function filterInstock(products){
-        console.log(state);
+       // console.log(state);
         return (state.onlyInstock)?products.filter( product => product.in_stock === true): products;
     }
 
