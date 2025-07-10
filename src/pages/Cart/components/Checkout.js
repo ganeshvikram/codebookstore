@@ -33,7 +33,6 @@ export const Checkout = ({setShowCheckout}) => {
                 navigate(`/order`, {state:{status:false}});
             }
     }
-
     useEffect(()=>{
         async function fetchData() {
             try {
