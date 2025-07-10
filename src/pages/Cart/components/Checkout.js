@@ -32,7 +32,6 @@ export const Checkout = ({setShowCheckout}) => {
                 toast.error(error.message, { closeButton: true, position: "bottom-center" });
                 navigate(`/order`, {state:{status:false}});
             }
-
     }
 
     useEffect(()=>{
