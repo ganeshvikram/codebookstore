@@ -1,5 +1,5 @@
 export async function getProductList(searchTrem){
-    const response = await fetch(`${process.env.REACT_APP_API_KEY}/products?${searchTrem || ''}`);
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/products?${searchTrem || ''}`);
     if (!response.ok) {
         const error = new Error(response.statusText);
         error.status = response.status; // attach custom info if needed
@@ -12,7 +12,7 @@ export async function getProductList(searchTrem){
 
 export async function getProduct(id){
 
-    const response = await fetch(`${process.env.REACT_APP_API_KEY}/products/${id}`);
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/products/${id}`);
     if (!response.ok) {
         const error = new Error(response.statusText);
         error.status = response.status; // attach custom info if needed
@@ -24,7 +24,7 @@ export async function getProduct(id){
 }
 
 export async function getFeatureProductList(){
-    const response = await fetch(`${process.env.REACT_APP_API_KEY}/featured_products`);
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/featured_products`);
     if (!response.ok) {
         const error = new Error(response.statusText);
         error.status = response.status; // attach custom info if needed

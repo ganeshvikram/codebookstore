@@ -12,7 +12,7 @@ export async function getUser(){
     const browseAuth = await getAuthDetails();
 
 
-        const response = await fetch(`${process.env.REACT_APP_API_KEY}/600/users/${browseAuth.cbid}`,{
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/users/${browseAuth.cbid}`,{
           method:"GET",
           headers:{"Content-Type": "application/json", Authorization: `Bearer ${browseAuth.token}`},
         });
@@ -30,7 +30,7 @@ export async function getUser(){
 export async function createOrder(orderdetail){
     const browseAuth = await getAuthDetails();
 
-    const response = await fetch(`${process.env.REACT_APP_API_KEY}/660/orders`,{  method:"POST",
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/orders`,{  method:"POST",
         headers:{"Content-Type": "application/json", Authorization: `Bearer ${browseAuth.token}`},
         body:JSON.stringify(orderdetail)
     });

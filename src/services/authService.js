@@ -1,5 +1,5 @@
 export async function login(authdetail){
-    const response = await fetch(`${process.env.REACT_APP_API_KEY}/login`,{
+    const response = await fetch(`${process.env.REACT_APP_AUTH_URL}/login`,{
         method:"POST",
         headers:{"Content-Type": "application/json"},
         body:JSON.stringify(authdetail)
@@ -20,7 +20,7 @@ export async function login(authdetail){
 
 export async function register(authdetail){
 
-    const response = await fetch(`${process.env.REACT_APP_API_KEY}/register`,{
+    const response = await fetch(`${process.env.REACT_APP_AUTH_URL}/register`,{
             method:"POST",
             headers:{"Content-Type": "application/json"},
             body:JSON.stringify(authdetail)
