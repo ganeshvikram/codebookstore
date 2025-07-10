@@ -1,7 +1,8 @@
 
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
-import { register } from '../services/authService';
+import { register } from '../services';
+
 
 export const Register = () => {
 
@@ -15,8 +16,12 @@ export const Register = () => {
       password:event.target.password.value,
     }
 
-    const data = await register(formDetails);
-    (data.accessToken)? navigate('/products'): toast.error(data)
+    try{
+      const data = await register(formDetails);
+      (data.accessToken)? navigate('/products'): toast.error(data)
+    }catch(error){
+      toast.error(error.message)
+    }
 
 
   }

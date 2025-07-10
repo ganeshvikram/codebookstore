@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router";
 import { useCart } from "../context";
+import { getProduct } from "../services";
+import { toast } from "react-toastify";
+
+
 
 
 export const ProductDetail = () => {
@@ -8,10 +12,13 @@ export const ProductDetail = () => {
   const [productDetail,setProductDetail] = useState([]);
 
   useEffect(()=>{
-    async function getproductDetail(params) {
-      const response = await fetch(`http://localhost:3001/products/${productId.id}`);
-      const data = await response.json();
+    async function getproductDetail() {
+      try{
+      const data = await getProduct(productId.id);
       setProductDetail(data);
+      }catch(error){
+        toast.error(error.message)
+      }
     }
     getproductDetail();
   },[productId])

@@ -3,6 +3,10 @@ import { ProductCard } from "../../components/"
 import { FilterBar } from "./components/FilterBar"
 import { useLocation } from "react-router";
 import { useFilter } from "../../context";
+import { getProductList } from "../../services";
+import { toast } from "react-toastify";
+
+
 
 export const ProductsList = () => {
   const [show, setShow] = useState(false);
@@ -14,19 +18,14 @@ export const ProductsList = () => {
   useEffect(() => {
     async function fetchProducts() {
       try {
-        const response = await fetch(`http://localhost:3001/products?${searchTrem || ''}`);
-        if (!response.ok) {
-          throw new Error(`HTTP  error! Status: ${response.status}`);
-        }
-        const data = await response.json();
+        const data = await getProductList(searchTrem);
         initialProductList(data);
       } catch (error) {
-        console.error('Failed to fetch products:', error);
+        toast.error(error.message)
       }
     }
-  
     fetchProducts();
-  }, [searchTrem]);
+  }, [searchTrem]); //eslint-disable-line
   return (
     <main>
         <section className="my-5">

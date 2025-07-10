@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
-import { login } from "../services/authService";
+import { login } from "../services";
 
 
 
@@ -21,13 +21,13 @@ export const Login = () => {
       password:password.current.value
     }
 
-    const data = await login(formDetails);
-
-    (data.accessToken)? navigate('/products'): toast.error(data)
-
-
+    try{
+      const data = await login(formDetails);
+      (data.accessToken)? navigate('/products'): toast.error(data)
+    }catch(error){
+      toast.error(error.message)
+    }
     
-
   }
   return (
     <main>

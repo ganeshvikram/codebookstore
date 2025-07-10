@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react"
 import { useCart } from "../../../context";
 import { useNavigate } from "react-router";
-
-
+import { createOrder,getUser } from "../../../services";
+import { toast } from "react-toastify";
 
 export const Checkout = ({setShowCheckout}) => {
 
-    const token = sessionStorage.getItem('token');
-    const cbid = sessionStorage.getItem('cbid');
+    
     const [user,setuser] = useState({})
     const { total,cartList, clearFromCart } = useCart();
     const navigate = useNavigate()
@@ -24,46 +23,29 @@ export const Checkout = ({setShowCheckout}) => {
                 id:user.id,
             }
         }
-
         try{
+            const data = await createOrder(order);
 
-                const response = await fetch(`http://localhost:3001/660/orders`,{  method:"POST",
-                    headers:{"Content-Type": "application/json", Authorization: `Bearer ${token}`},
-                    body:JSON.stringify(order)
-                });
-                if (!response.ok) {
-                throw new Error(`HTTP  error! Status: ${response.status}`);
-                }
-                const data = await response.json();
                 clearFromCart();
                 navigate(`/order`, {state:{status:true, data:data}});
-            }catch{
+            }catch(error){
+                toast.error(error.message, { closeButton: true, position: "bottom-center" });
                 navigate(`/order`, {state:{status:false}});
             }
 
     }
 
     useEffect(()=>{
-
-        async function getUser() {
+        async function fetchData() {
             try {
-              const response = await fetch(`http://localhost:3001/600/users/${cbid}`,{
-                method:"GET",
-                headers:{"Content-Type": "application/json", Authorization: `Bearer ${token}`},
-              });
-              if (!response.ok) {
-                console.error(`HTTP  error! Status: ${response.status}`);
-              }
-              const data = await response.json();
-              setuser(data);
+                const data = await getUser();
+                setuser(data);
             } catch (error) {
-              console.error('Failed to fetch user:', error);
-            }
+                toast.error(error.message)
+              }
           }
-        
-          getUser();
-
-    },[cbid,token])
+          fetchData();
+    },[])
   return (
     <section>
         <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50"></div>
